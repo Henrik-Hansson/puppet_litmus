@@ -217,7 +217,7 @@ if metadata.key?('requirements') && metadata['requirements'].length.positive?
       # This assumes that such a boundary will always allow the latest actually existing puppet version of a release stream, trading off simplicity vs accuracy here.
       next unless Gem::Requirement.create(reqs).satisfied_by?(Gem::Version.new("#{collection[:puppet_maj_version]}.9999"))
 
-      matrix[:collection] << "puppet#{collection[:puppet_maj_version]}-nightly"
+      matrix[:collection] << "puppet#{collection[:puppet_maj_version]}"
 
       include_version = {
         8 => "~> #{collection[:puppet_maj_version]}.0",
@@ -230,7 +230,7 @@ if metadata.key?('requirements') && metadata['requirements'].length.positive?
 end
 
 # Set to defaults (all collections) if no matches are found
-matrix[:collection] = COLLECTION_TABLE.map { |collection| "puppet#{collection[:puppet_maj_version]}-nightly" } if matrix[:collection].empty?
+matrix[:collection] = COLLECTION_TABLE.map { |collection| "puppet#{collection[:puppet_maj_version]}" } if matrix[:collection].empty?
 # Just to make sure there aren't any duplicates
 matrix[:platforms] = matrix[:platforms].uniq.sort_by { |a| a[:label] } unless ARGV.include?('--custom-matrix')
 matrix[:collection] = matrix[:collection].uniq.sort
